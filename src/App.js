@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import "./app.css"
+import TextToSpeech from "./pages/TextToSpeech.jsx"
+import SpeechToText from "./pages/SpeechToText.jsx"
+import Navbar from "./components/Navbar";
+
 
 function App() {
+
+
+  const [isLogin, setIsLogin] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("")
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {!isLogin ? <LoginPage setName={setName} setEmail={setEmail} setPassword={setPassword} setIsLogin={setIsLogin} name={name} email={email} password={password} /> :
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/textToSpeech" element={<TextToSpeech />} />
+            <Route path="/speechToText" element={ <SpeechToText />} />
+            <Route />
+          </Routes>
+      </Router>
+      }
     </div>
   );
 }
